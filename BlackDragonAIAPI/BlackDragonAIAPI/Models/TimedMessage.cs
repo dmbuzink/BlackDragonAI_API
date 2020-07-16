@@ -10,5 +10,7 @@ namespace BlackDragonAIAPI.Models
     {
         [Key] public Guid Guid { get; set; } = Guid.NewGuid();
         public string Command { get; set; }
+        public int IntervalInMinutes { get; set; } = 30;
+        public int OffsetInMinutes { get; set; } = 0;
     }
 }

@@ -15,6 +15,8 @@ CREATE TABLE Users (
 CREATE TABLE TimedMessages (
 	Guid BINARY(16) PRIMARY KEY,
     Command CHAR(255) NOT NULL,
+    IntervalInMinutes INT NOT NULL,
+    OffsetInMinutes INT NOT NULL,
     
     CONSTRAINT FK_TimedMessages_CommandDetails FOREIGN KEY (Command) REFERENCES Commands(Command)
 );
