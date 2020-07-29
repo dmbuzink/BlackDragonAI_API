@@ -4,10 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using BlackDragonAIAPI.Models;
 using BlackDragonAIAPI.StorageHandlers;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlackDragonAIAPI.Controllers
 {
+    [EnableCors("AllowAll")]
     [Route("api/webhook")]
     [ApiController]
     public class WebhookSubscribersController : ControllerBase

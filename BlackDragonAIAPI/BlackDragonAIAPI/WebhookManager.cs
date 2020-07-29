@@ -24,7 +24,7 @@ namespace BlackDragonAIAPI
             {
                 try
                 {
-                    var url = ws.Uri + endpoint;
+                    var url = $"http://{ws.Uri}:2005{endpoint}";
                     Console.WriteLine($"URL: {url}");
                     SendWithoutWaiting(new Uri(url));
                 }
@@ -39,7 +39,8 @@ namespace BlackDragonAIAPI
         {
             try
             {
-                await _client.PostAsync(uri, new StringContent(""));
+                var context = await _client.PostAsync(uri, new StringContent(""));
+                Console.WriteLine("Successful");
             }
             catch (Exception exception)
             {

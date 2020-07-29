@@ -8,12 +8,14 @@ using BlackDragonAIAPI.Models;
 using BlackDragonAIAPI.Models.Validation;
 using BlackDragonAIAPI.StorageHandlers;
 using Jose;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
 namespace BlackDragonAIAPI.Controllers
 {
+    [EnableCors("AllowAll")]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
