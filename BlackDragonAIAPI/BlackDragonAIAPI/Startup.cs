@@ -21,6 +21,8 @@ namespace BlackDragonAIAPI
 {
     public class Startup
     {
+        private static readonly string _corsPolicy = "AllowAny";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -48,7 +50,18 @@ namespace BlackDragonAIAPI
             services.AddScoped<IWebhookSubscriberService, MySqlWebhookSubscriberService>();
             services.AddScoped<CommandValidator>();
             services.AddScoped<UserValidator>();
+            services.AddScoped<TimedMessageValidator>();
             services.AddScoped<WebhookManager>();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
 
             services.AddControllers();
         }
@@ -64,13 +77,8 @@ namespace BlackDragonAIAPI
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseCors(builder =>
-            {
-                builder.AllowAnyOrigin();
-                builder.AllowAnyHeader();
-                builder.AllowAnyMethod();
-            });
-
+            
+            app.UseCors(_corsPolicy);
 //            app.UseAuthorization();
 
             app.UseMiddleware<AuthenticationMiddleware>();

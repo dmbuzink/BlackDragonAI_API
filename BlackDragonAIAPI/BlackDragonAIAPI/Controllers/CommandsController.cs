@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 using BlackDragonAIAPI.Models;
 using BlackDragonAIAPI.Models.Validation;
 using BlackDragonAIAPI.StorageHandlers;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlackDragonAIAPI.Controllers
 {
+    [EnableCors("AllowAll")]
     [Route("api/[controller]")]
     [ApiController]
     public class CommandsController : ControllerBase

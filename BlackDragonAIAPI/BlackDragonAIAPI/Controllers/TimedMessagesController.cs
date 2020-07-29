@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 using BlackDragonAIAPI.Models;
 using BlackDragonAIAPI.Models.Validation;
 using BlackDragonAIAPI.StorageHandlers;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlackDragonAIAPI.Controllers
 {
+    [EnableCors("AllowAll")]
     [Route("api/[controller]")]
     [ApiController]
     public class TimedMessagesController : ControllerBase
@@ -92,7 +94,7 @@ namespace BlackDragonAIAPI.Controllers
             if (!(await _timedMessageService.GetTimedMessages(tm => tm.Command.Equals(command.OriginalCommand))).Any())
                 return NoContent();
 
-            await this._timedMessageService.DeleteTimedMessage(commandName);
+            await this._timedMessageService.DeleteTimedMessage(command.OriginalCommand);
             this._webhookManager.SendUpdateNotification("/timedmessages");
             return NoContent();
         }
