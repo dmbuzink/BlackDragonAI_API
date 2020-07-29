@@ -16,14 +16,14 @@ namespace BlackDragonAIAPI.StorageHandlers
             this._db = db;
         }
 
-        public async Task<IEnumerable<TimedMessage>> GetTimedMessages() => 
-            this._db.TimedMessages;
+        public async Task<IEnumerable<TimedMessage>> GetTimedMessages() =>
+            await Task.Run(() => this._db.TimedMessages);
 
         public async Task<IEnumerable<TimedMessage>> GetTimedMessages(Func<TimedMessage, bool> condition) =>
-            this._db.TimedMessages.Where(condition);
+            await Task.Run(() => this._db.TimedMessages.Where(condition));
 
         public async Task<TimedMessage> GetTimedMessage(Func<TimedMessage, bool> condition) =>
-            this._db.TimedMessages.Where(condition).FirstOrDefault();
+            await Task.Run(() => this._db.TimedMessages.Where(condition).FirstOrDefault());
 
         public async Task<TimedMessage> AddTimedMessage(TimedMessage timedMessage)
         {
