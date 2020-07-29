@@ -24,10 +24,10 @@ namespace BlackDragonAIAPI.StorageHandlers
         }
 
         public override async Task<IEnumerable<CommandDetails>> GetCommands() =>
-            this._db.Commands;
+            await Task.Run(() => this._db.Commands);
 
         public override async Task<IEnumerable<CommandDetails>> GetCommands(Func<CommandDetails, bool> condition) =>
-            this._db.Commands.Where(condition);
+            await Task.Run(() => this._db.Commands.Where(condition));
 
         public override async Task<CommandDetails> GetCommand(Func<CommandDetails, bool> condition) =>
             (await GetCommands(condition)).FirstOrDefault();
