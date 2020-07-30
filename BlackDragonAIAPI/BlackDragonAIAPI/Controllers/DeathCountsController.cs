@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BlackDragonAIAPI.Controllers
 {
     [EnableCors("AllowAll")]
-    [Route("api/[controller]")]
+    [Route("api/deaths")]
     [ApiController]
     public class DeathCountsController : ControllerBase
     {
