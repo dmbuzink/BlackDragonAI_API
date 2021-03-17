@@ -43,6 +43,9 @@ namespace BlackDragonAIAPI.Controllers
             return Created("", "done");
         }
 
+//        [HttpGet("exists/{commandName}")]
+//        public async Task<Existence> CommandExists(string commandName)
+
         [HttpPost]
         public async Task<ActionResult<CommandDetails>> CreateCommand(CommandDetails commandDetails)
         {

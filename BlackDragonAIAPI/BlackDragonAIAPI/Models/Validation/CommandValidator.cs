@@ -22,8 +22,8 @@ namespace BlackDragonAIAPI.Models.Validation
             this.RuleFor(c => c.Message)
                 .NotNull()
                 .WithMessage("The message should not be null")
-                .Length(1, 510)
-                .WithMessage("The message should be at least 1 character and no more than 510 characters.");
+                .Length(1, 500)
+                .WithMessage("The message should be at least 1 character and no more than 500 characters.");
 
             this.RuleFor(c => c.Permission)
                 .NotNull()

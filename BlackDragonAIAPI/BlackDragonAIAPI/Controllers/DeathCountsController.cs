@@ -76,6 +76,10 @@ namespace BlackDragonAIAPI.Controllers
         public async Task<ActionResult<DeathCount>> GetDeathCount(string gameId) =>
             Ok(await this._deathCountsService.GetDeathCount(gameId));
 
+        [HttpGet("exists/{counterName}")]
+        public async Task<Existence> Exists(string counterName) =>
+            new Existence(await this._deathCountsService.GetDeathCount(counterName) != null);
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DeathCount>>> GetAllDeathCounts() =>
             Ok(await this._deathCountsService.GetDeathCounts());

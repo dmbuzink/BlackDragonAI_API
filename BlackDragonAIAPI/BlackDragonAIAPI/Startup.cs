@@ -14,21 +14,20 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using MongoDB.Driver;
-using Pomelo.EntityFrameworkCore.MySql.Storage.Internal;
 
 namespace BlackDragonAIAPI
 {
     public class Startup
     {
-        private static readonly string _corsPolicy = "AllowAny";
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
+
+
+        private static readonly string _corsPolicy = "AllowAny";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
