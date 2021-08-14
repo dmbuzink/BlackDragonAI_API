@@ -39,5 +39,14 @@ namespace BlackDragonAIAPI.StorageHandlers
 
         public async Task<IEnumerable<DeathCount>> GetDeathCounts() => 
             await Task.Run(() => this._db.DeathCounts);
+
+        public async Task DeleteDeathCount(Func<DeathCount, bool> condition)
+        {
+            await Task.Run(() =>
+            {
+                var dbDeathCounts = this._db.DeathCounts.Where(condition);
+                this._db.RemoveRange(dbDeathCounts);
+            });
+        }
     }
 }

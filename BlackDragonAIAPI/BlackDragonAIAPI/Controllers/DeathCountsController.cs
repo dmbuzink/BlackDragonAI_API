@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace BlackDragonAIAPI.Controllers
 {
-    [EnableCors("AllowAll")]
     [Route("api/deaths")]
     [ApiController]
     public class DeathCountsController : ControllerBase
@@ -26,9 +25,10 @@ namespace BlackDragonAIAPI.Controllers
         {
             try
             {
-                return Ok(await CreateOrUpdateDeathCount(gameId, deathCount.IsDeathCount, dc =>
+                return Ok(await CreateOrUpdateDeathCount(gameId, dc =>
                 {
                     dc.Deaths = deathCount.Deaths;
+                    dc.IsDeathCount = deathCount.IsDeathCount;
                     return dc;
                 }));
             }
@@ -38,12 +38,12 @@ namespace BlackDragonAIAPI.Controllers
             }
         }
 
-        [HttpPost("{gameId}/{isDeathCount?}")]
-        public async Task<ActionResult<DeathCount>> IncrementDeathCount(string gameId, bool isDeathCount = true)
+        [HttpPost("{gameId}")]
+        public async Task<ActionResult<DeathCount>> IncrementDeathCount(string gameId)
         {
             try
             {
-                return Ok(await CreateOrUpdateDeathCount(gameId, isDeathCount, dc =>
+                return Ok(await CreateOrUpdateDeathCount(gameId, dc =>
                 {
                     dc.Deaths++;
                     return dc;
@@ -60,7 +60,7 @@ namespace BlackDragonAIAPI.Controllers
         {
             try
             {
-                return Ok(await CreateOrUpdateDeathCount(gameId, false, dc =>
+                return Ok(await CreateOrUpdateDeathCount(gameId, dc =>
                 {
                     dc.Deaths--;
                     return dc;
@@ -93,7 +93,14 @@ namespace BlackDragonAIAPI.Controllers
             Ok((await this._deathCountsService.GetDeathCounts()).FirstOrDefault(dc =>
                 !dc.IsDeathCount && dc.GameId.Equals(counterName)));
 
-        private async Task<DeathCount> CreateOrUpdateDeathCount(string gameId, bool isDeathCount,
+        [HttpDelete("counters/{counterName}")]
+        public async Task<ActionResult> DeleteCounter(string counterName)
+        {
+            await this._deathCountsService.DeleteDeathCount(dc => dc.GameId.Equals(counterName));
+            return NoContent();
+        }
+
+        private async Task<DeathCount> CreateOrUpdateDeathCount(string gameId,
             Func<DeathCount, DeathCount> updateFunc)
         {
             var dbDeathCount = await this._deathCountsService.GetDeathCount(gameId);
@@ -103,8 +110,7 @@ namespace BlackDragonAIAPI.Controllers
                 dbDeathCount = new DeathCount()
                 {
                     Deaths = 0,
-                    GameId = gameId,
-                    IsDeathCount = isDeathCount
+                    GameId = gameId
                 };
                 storeInDatabase = this._deathCountsService.AddDeathCount;
             }

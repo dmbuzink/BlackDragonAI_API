@@ -28,7 +28,7 @@ namespace BlackDragonAIAPI
                     Console.WriteLine($"URL: {url}");
                     SendWithoutWaiting(new Uri(url));
                 }
-                catch (Exception exception)
+                catch (Exception)
                 {
                     Console.WriteLine($"Webhook error to uri: {ws.Uri}");
                 }

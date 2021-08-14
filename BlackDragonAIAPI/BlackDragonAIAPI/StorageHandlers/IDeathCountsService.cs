@@ -12,5 +12,6 @@ namespace BlackDragonAIAPI.StorageHandlers
         Task UpdateDeathCount(DeathCount deathCount);
         Task<DeathCount> GetDeathCount(string gameId);
         Task<IEnumerable<DeathCount>> GetDeathCounts();
+        Task DeleteDeathCount(Func<DeathCount, bool> condition);
     }
 }
