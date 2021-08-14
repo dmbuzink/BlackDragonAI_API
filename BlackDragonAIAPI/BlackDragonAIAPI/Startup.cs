@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BlackDragonAIAPI.Discord;
 using BlackDragonAIAPI.Models;
 using BlackDragonAIAPI.Models.Validation;
 using BlackDragonAIAPI.StorageHandlers;
@@ -27,7 +28,7 @@ namespace BlackDragonAIAPI
         public IConfiguration Configuration { get; }
 
 
-        private static readonly string _corsPolicy = "AllowAny";
+        public const string CorsPolicy = "AllowAny";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -48,14 +49,16 @@ namespace BlackDragonAIAPI
             services.AddScoped<ITimedMessageService, MySqlTimedMessageService>();
             services.AddScoped<IWebhookSubscriberService, MySqlWebhookSubscriberService>();
             services.AddScoped<IDeathCountsService, MySqlDeathCountsService>();
+            services.AddScoped<IStreamPlanningService, MysqlStreamPlanningService>();
             services.AddScoped<CommandValidator>();
             services.AddScoped<UserValidator>();
             services.AddScoped<TimedMessageValidator>();
             services.AddScoped<WebhookManager>();
+            services.AddScoped<IDiscordManager, FakeDiscordManager>();
 
             services.AddCors(options =>
             {
-                options.AddPolicy("AllowAll", builder =>
+                options.AddPolicy(CorsPolicy, builder =>
                 {
                     builder.AllowAnyOrigin()
                         .AllowAnyHeader()
@@ -78,7 +81,7 @@ namespace BlackDragonAIAPI
 
             app.UseRouting();
             
-            app.UseCors(_corsPolicy);
+            app.UseCors(CorsPolicy);
 //            app.UseAuthorization();
 
             app.UseMiddleware<AuthenticationMiddleware>();

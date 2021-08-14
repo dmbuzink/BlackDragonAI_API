@@ -17,6 +17,7 @@ namespace BlackDragonAIAPI.StorageHandlers
         public DbSet<TimedMessage> TimedMessages { get; set; }
         public DbSet<WebhookSubscriber> WebhookSubscribers { get; set; }
         public DbSet<DeathCount> DeathCounts { get; set; }
+        public DbSet<StreamPlanning> StreamPlannings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
