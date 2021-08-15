@@ -20,10 +20,10 @@ namespace BlackDragonAIAPI.StorageHandlers
             await Task.Run(() => this._db.TimedMessages);
 
         public async Task<IEnumerable<TimedMessage>> GetTimedMessages(Func<TimedMessage, bool> condition) =>
-            await Task.Run(() => this._db.TimedMessages.Where(condition));
+            await Task.Run(() => this._db.TimedMessages.AsEnumerable().Where(condition));
 
         public async Task<TimedMessage> GetTimedMessage(Func<TimedMessage, bool> condition) =>
-            await Task.Run(() => this._db.TimedMessages.Where(condition).FirstOrDefault());
+            await Task.Run(() => this._db.TimedMessages.AsEnumerable().Where(condition).FirstOrDefault());
 
         public async Task<TimedMessage> AddTimedMessage(TimedMessage timedMessage)
         {
@@ -34,13 +34,13 @@ namespace BlackDragonAIAPI.StorageHandlers
 
         public async Task DeleteTimedMessage(string command)
         {
-            this._db.TimedMessages.Remove(await this._db.TimedMessages.FirstAsync(tm => tm.Command.Equals(command, StringComparison.InvariantCultureIgnoreCase)));
+            this._db.TimedMessages.Remove(await this._db.TimedMessages.AsQueryable().FirstAsync(tm => tm.Command.Equals(command, StringComparison.InvariantCultureIgnoreCase)));
             await this._db.SaveChangesAsync();
         }
 
         public async Task UpdateTimedMessages(Func<TimedMessage, bool> condition, Func<TimedMessage, TimedMessage> func)
         {
-            foreach (var tm in this._db.TimedMessages.Where(condition))
+            foreach (var tm in this._db.TimedMessages.AsEnumerable().Where(condition))
             {
                 this._db.TimedMessages.Update(func(tm));
             }

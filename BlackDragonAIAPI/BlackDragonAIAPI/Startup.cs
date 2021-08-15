@@ -38,6 +38,8 @@ namespace BlackDragonAIAPI
                 Secret = this.Configuration.GetSection("AuthConfig").GetValue<string>("Secret")
             });
 
+            services.AddOptions<DiscordConfig>()
+                .Bind(this.Configuration.GetSection("DiscordConfig"));
             //            var mongodbClient = new MongoClient(this.Configuration.GetConnectionString("MongoDb"));
 
             services.AddDbContext<BLBDatabaseContext>(options => 
@@ -54,7 +56,7 @@ namespace BlackDragonAIAPI
             services.AddScoped<UserValidator>();
             services.AddScoped<TimedMessageValidator>();
             services.AddScoped<WebhookManager>();
-            services.AddScoped<IDiscordManager, FakeDiscordManager>();
+            services.AddScoped<IDiscordManager, DiscordManager>();
 
             services.AddCors(options =>
             {

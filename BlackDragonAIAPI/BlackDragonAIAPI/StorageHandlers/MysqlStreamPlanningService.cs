@@ -42,12 +42,12 @@ namespace BlackDragonAIAPI.StorageHandlers
         public Task<IEnumerable<StreamPlanning>> GetStreamPlannings(Func<StreamPlanning, bool>? condition = null)
         {
             return Task.Run(() => condition is null ? this._db.StreamPlannings : 
-                this._db.StreamPlannings.Where(condition));
+                this._db.StreamPlannings.AsEnumerable().Where(condition));
         }
 
         public async Task<StreamPlanning?> GetStreamPlanningById(long id)
         {
-            return await this._db.StreamPlannings.FirstOrDefaultAsync(sp => sp.Id == id);
+            return await this._db.StreamPlannings.AsQueryable().FirstOrDefaultAsync(sp => sp.Id == id);
         }
 
         public async Task DeleteStreamPlanningById(long id)

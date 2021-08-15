@@ -35,7 +35,7 @@ namespace BlackDragonAIAPI.StorageHandlers
         }
 
         public async Task<DeathCount> GetDeathCount(string gameId) =>
-            await this._db.DeathCounts.FirstOrDefaultAsync(dc => dc.GameId.Equals(gameId));
+            await this._db.DeathCounts.AsQueryable().FirstOrDefaultAsync(dc => dc.GameId.Equals(gameId));
 
         public async Task<IEnumerable<DeathCount>> GetDeathCounts() => 
             await Task.Run(() => this._db.DeathCounts);
@@ -44,7 +44,7 @@ namespace BlackDragonAIAPI.StorageHandlers
         {
             await Task.Run(() =>
             {
-                var dbDeathCounts = this._db.DeathCounts.Where(condition);
+                var dbDeathCounts = this._db.DeathCounts.AsEnumerable().Where(condition);
                 this._db.RemoveRange(dbDeathCounts);
             });
         }

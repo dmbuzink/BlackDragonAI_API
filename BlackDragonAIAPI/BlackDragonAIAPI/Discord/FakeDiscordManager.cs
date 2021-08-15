@@ -7,6 +7,11 @@ namespace BlackDragonAIAPI.Discord
 {
     public class FakeDiscordManager : IDiscordManager
     {
+        public Task Connect()
+        {
+            return Task.CompletedTask;
+        }
+
         public async Task<IEnumerable<StreamPlanning>> ReadStreamPlanning()
         {
             var sp1 = new StreamPlanning()

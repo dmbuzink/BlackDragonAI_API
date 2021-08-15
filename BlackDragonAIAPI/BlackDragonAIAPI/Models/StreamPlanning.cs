@@ -87,7 +87,7 @@ namespace BlackDragonAIAPI.Models
         {
             return
                 $"{GetDayAbbreviation(Date.DayOfWeek)}. {Date.Day:D2}-{Date.Month:D2}  |  {TimeSlot}  |  {Game}  |  {StreamType}\r\n" +
-                $"{GameType}  |  Trailer: {TrailerUri}";
+                $"{GameType}  |  Trailer: <{TrailerUri}>";
         }
 
         private string GetDayAbbreviation(DayOfWeek dayOfWeek) => dayOfWeek switch
