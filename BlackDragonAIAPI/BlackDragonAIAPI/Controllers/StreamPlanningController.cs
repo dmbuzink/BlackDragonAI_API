@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BlackDragonAIAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/streamplannings")]
     [ApiController]
     public class StreamPlanningController : ControllerBase
     {
@@ -30,14 +30,15 @@ namespace BlackDragonAIAPI.Controllers
             return Created($"/api/streamplannings/{streamPlanning.Id}", createdSp);
         }
 
-        [HttpPut]
-        public async Task<ActionResult> UpdateStreamPlanning(StreamPlanning streamPlanning)
+        [HttpPut("{id:long}")]
+        public async Task<ActionResult> UpdateStreamPlanning(long id, StreamPlanning streamPlanning)
         {
+            streamPlanning.Id = id;
             var updatedSp = await this._streamPlanningService.UpdateStreamPlanning(streamPlanning);
             return Ok(updatedSp);
         }
 
-        [HttpGet("id")]
+        [HttpGet("{id:long}")]
         public async Task<ActionResult<StreamPlanning>> GetStreamPlanningById(long id) =>
             Ok(await this._streamPlanningService.GetStreamPlanningById(id));
 
@@ -45,7 +46,7 @@ namespace BlackDragonAIAPI.Controllers
         public async Task<ActionResult<IEnumerable<StreamPlanning>>> GetStreamPlannings() => 
             Ok(await this._streamPlanningService.GetStreamPlannings());
 
-        [HttpDelete("id")]
+        [HttpDelete("{id:long}")]
         public async Task<ActionResult> DeleteStreamPlanning(long id)
         {
             await this._streamPlanningService.DeleteStreamPlanningById(id);
@@ -64,7 +65,7 @@ namespace BlackDragonAIAPI.Controllers
         public async Task<ActionResult> LoadDiscordPlanning()
         {
             var discordStreamPlannings = await this._discordManager.ReadStreamPlanning();
-            var dbStreamPlannings = await this._streamPlanningService.GetStreamPlannings();
+            var dbStreamPlannings = (await this._streamPlanningService.GetStreamPlannings()).ToArray();
             foreach (var sp in dbStreamPlannings)
             {
                 await this._streamPlanningService.DeleteStreamPlanningById(sp.Id);

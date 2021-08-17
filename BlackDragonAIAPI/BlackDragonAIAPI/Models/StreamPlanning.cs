@@ -57,9 +57,12 @@ namespace BlackDragonAIAPI.Models
             string rawTrailerGroup = CleanTextGroup(groups.Skip(4).FirstOrDefault());
             var trailerIndex = rawTrailerGroup.IndexOf("Trailer:",
                 StringComparison.InvariantCultureIgnoreCase);
-            streamPlanning.TrailerUri = trailerIndex != -1 ? 
-                    rawTrailerGroup[(trailerIndex + trailerTextLength)..].Trim() :
+            streamPlanning.TrailerUri = trailerIndex != -1 ?
+                    rawTrailerGroup[(trailerIndex + trailerTextLength + 1)..].Trim() :
                     string.Empty;
+            streamPlanning.TrailerUri = streamPlanning.TrailerUri
+                .Replace("<", string.Empty)
+                .Replace(">", string.Empty);
             return streamPlanning;
         }
 

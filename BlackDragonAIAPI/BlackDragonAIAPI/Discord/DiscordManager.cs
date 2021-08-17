@@ -14,8 +14,8 @@ namespace BlackDragonAIAPI.Discord
     {
         private const string MessagePreText = "bkdnPOG  Jaarplanning  bkdnLurk \r\n\r\n\r\n";
         private readonly DiscordSocketClient _client;
-
         private readonly DiscordConfig _discordConfig;
+        private bool _isConnected = false;
         
         public DiscordManager(IOptions<DiscordConfig> discordConfig)
         {
@@ -34,18 +34,26 @@ namespace BlackDragonAIAPI.Discord
             await this._client.LoginAsync(TokenType.Bot, this._discordConfig.Token);
             await this._client.StartAsync();
             mre.Wait();
+            this._isConnected = true;
         }
 
         public async Task<IEnumerable<StreamPlanning>> ReadStreamPlanning()
         {
+            if (!_isConnected) await Connect();
+            
             var message = await GetMessage();
-            var messageText = message.Content.Substring(message.Content.IndexOf("\n",
-                StringComparison.InvariantCultureIgnoreCase) + 2);
+            var messageText = message.Content.Replace("\r", string.Empty);
+            messageText = messageText
+                .Substring(messageText.IndexOf("\n\n\n",
+                    StringComparison.InvariantCultureIgnoreCase) + 6);
+            
             return StreamPlanning.MultiParse(messageText);
         }
 
         public async Task WriteStreamPlanning(IEnumerable<StreamPlanning> streamPlannings)
         {
+            if (!_isConnected) await Connect();
+            
             var serializedStreamPlanning = StreamPlanning.SerializeMultiple(streamPlannings);
             var streamPlanningText = serializedStreamPlanning.Insert(0, MessagePreText);
             var channel = await GetChannel();

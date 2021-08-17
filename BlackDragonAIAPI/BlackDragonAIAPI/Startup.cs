@@ -43,7 +43,8 @@ namespace BlackDragonAIAPI
             //            var mongodbClient = new MongoClient(this.Configuration.GetConnectionString("MongoDb"));
 
             services.AddDbContext<BLBDatabaseContext>(options => 
-                options.UseMySql(this.Configuration.GetConnectionString("MySql")));
+                options.UseMySql(this.Configuration.GetConnectionString("MySql"), 
+                    new MySqlServerVersion(new Version(5, 5, 60))));
             // add connection stuff because life
 //            services.AddSingleton<IMongoClient>(mongodbClient);
             services.AddScoped<ICommandService, MySqlCommandService>();
@@ -56,7 +57,7 @@ namespace BlackDragonAIAPI
             services.AddScoped<UserValidator>();
             services.AddScoped<TimedMessageValidator>();
             services.AddScoped<WebhookManager>();
-            services.AddScoped<IDiscordManager, DiscordManager>();
+            services.AddSingleton<IDiscordManager, DiscordManager>();
 
             services.AddCors(options =>
             {

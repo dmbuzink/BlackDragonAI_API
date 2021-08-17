@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BlackDragonAIAPI.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace BlackDragonAIAPI.StorageHandlers
 {
@@ -35,7 +34,9 @@ namespace BlackDragonAIAPI.StorageHandlers
         }
 
         public async Task<DeathCount> GetDeathCount(string gameId) =>
-            await this._db.DeathCounts.AsQueryable().FirstOrDefaultAsync(dc => dc.GameId.Equals(gameId));
+            await Task.Run(() => this._db.DeathCounts.
+                AsQueryable().
+                FirstOrDefault(dc => dc.GameId.Equals(gameId)));
 
         public async Task<IEnumerable<DeathCount>> GetDeathCounts() => 
             await Task.Run(() => this._db.DeathCounts);

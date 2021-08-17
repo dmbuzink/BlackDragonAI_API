@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BlackDragonAIAPI.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace BlackDragonAIAPI.StorageHandlers
 {
@@ -34,7 +33,7 @@ namespace BlackDragonAIAPI.StorageHandlers
 
         public async Task DeleteTimedMessage(string command)
         {
-            this._db.TimedMessages.Remove(await this._db.TimedMessages.AsQueryable().FirstAsync(tm => tm.Command.Equals(command, StringComparison.InvariantCultureIgnoreCase)));
+            this._db.TimedMessages.Remove(this._db.TimedMessages.AsQueryable().First(tm => tm.Command.Equals(command, StringComparison.InvariantCultureIgnoreCase)));
             await this._db.SaveChangesAsync();
         }
 

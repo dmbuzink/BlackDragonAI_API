@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BlackDragonAIAPI.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace BlackDragonAIAPI.StorageHandlers
 {

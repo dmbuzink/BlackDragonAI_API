@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BlackDragonAIAPI.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace BlackDragonAIAPI.StorageHandlers
 {
@@ -45,10 +44,8 @@ namespace BlackDragonAIAPI.StorageHandlers
                 this._db.StreamPlannings.AsEnumerable().Where(condition));
         }
 
-        public async Task<StreamPlanning?> GetStreamPlanningById(long id)
-        {
-            return await this._db.StreamPlannings.AsQueryable().FirstOrDefaultAsync(sp => sp.Id == id);
-        }
+        public async Task<StreamPlanning?> GetStreamPlanningById(long id) =>
+            await Task.Run(() => this._db.StreamPlannings.AsQueryable().FirstOrDefault(sp => sp.Id == id));
 
         public async Task DeleteStreamPlanningById(long id)
         {
