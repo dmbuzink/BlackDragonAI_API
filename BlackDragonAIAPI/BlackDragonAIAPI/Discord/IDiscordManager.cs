@@ -10,7 +10,8 @@ namespace BlackDragonAIAPI.Discord
     public interface IDiscordManager
     {
         Task Connect();
-        Task<IEnumerable<StreamPlanning>> ReadStreamPlanning();
+        Task<IEnumerable<StreamPlanning>> ReadStreamPlannings();
         Task WriteStreamPlanning(IEnumerable<StreamPlanning> streamPlannings);
+        Task ShareUpdatedMessage();
     }
 }

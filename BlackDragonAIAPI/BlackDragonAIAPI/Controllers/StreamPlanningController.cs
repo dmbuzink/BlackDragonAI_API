@@ -64,7 +64,7 @@ namespace BlackDragonAIAPI.Controllers
         [HttpPut("discord/load")]
         public async Task<ActionResult> LoadDiscordPlanning()
         {
-            var discordStreamPlannings = await this._discordManager.ReadStreamPlanning();
+            var discordStreamPlannings = await this._discordManager.ReadStreamPlannings();
             var dbStreamPlannings = (await this._streamPlanningService.GetStreamPlannings()).ToArray();
             foreach (var sp in dbStreamPlannings)
             {
@@ -75,6 +75,13 @@ namespace BlackDragonAIAPI.Controllers
                 await this._streamPlanningService.CreateStreamPlanning(sp);
             }
             return NoContent();
+        }
+
+        [HttpPost("discord/share")]
+        public async Task<ActionResult> SharePlanningUpdate()
+        {
+            await this._discordManager.ShareUpdatedMessage();
+            return Ok();
         }
     }
 }

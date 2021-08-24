@@ -17,7 +17,7 @@ namespace BlackDragonAIAPI
 {
     public class AuthenticationMiddleware
     {
-        private readonly IEnumerable<string> _routeExemptions = new string[]{"api/users/register", "api/users/login"};
+        private readonly IEnumerable<string> _routeExemptions = new string[]{"api/users/register", "api/users/login", "api/streamplannings"};
         private readonly RequestDelegate _next;
         private readonly string _secret;
 
@@ -29,7 +29,7 @@ namespace BlackDragonAIAPI
 
         public async Task InvokeAsync(HttpContext context)
         {
-            if (this._routeExemptions.Any(route => context.Request.GetEncodedUrl().Contains(route)))
+            if (this._routeExemptions.Any(route => context.Request.GetEncodedUrl().EndsWith(route)))
             {
                 await this._next(context);
                 return;

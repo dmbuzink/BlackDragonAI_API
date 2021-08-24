@@ -12,8 +12,10 @@ namespace BlackDragonAIAPI.Discord
     public class DiscordConfig
     {
         public string Token { get; set; }
+        public ulong BotId { get; set; }
         public ulong GuildId { get; set; }
-        public ulong ChannelId { get; set; }
-        public ulong MessageId { get; set; }
+        public ulong StreamPlanningChannelId { get; set; }
+        public ulong GeneralChannelId { get; set; }
+        public string UpdateMessage { get; set; }
     }
 }

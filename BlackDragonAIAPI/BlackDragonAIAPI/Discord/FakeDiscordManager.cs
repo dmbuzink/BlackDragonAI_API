@@ -12,7 +12,7 @@ namespace BlackDragonAIAPI.Discord
             return Task.CompletedTask;
         }
 
-        public async Task<IEnumerable<StreamPlanning>> ReadStreamPlanning()
+        public async Task<IEnumerable<StreamPlanning>> ReadStreamPlannings()
         {
             var sp1 = new StreamPlanning()
             {
@@ -50,6 +50,11 @@ namespace BlackDragonAIAPI.Discord
         public Task WriteStreamPlanning(IEnumerable<StreamPlanning> streamPlannings)
         {
             return Task.CompletedTask;
+        }
+
+        public Task ShareUpdatedMessage()
+        {
+            throw new NotImplementedException();
         }
     }
 }
